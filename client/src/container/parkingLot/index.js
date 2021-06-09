@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Building from './Building';
 import Spot from './Spot';
+import { getParkData, setParkData } from '../../api/api';
 
 const useStyles = makeStyles((theme) => ({
     park: {
@@ -40,11 +41,20 @@ const BUTTON = [
 export default function ParkingLot() {
     const classes = useStyles();
     const td_array = new Array(6).fill(false).map(() => new Array(7).fill(false));
-    const [points, setPoints] = useState(td_array);
+    const [points, setPoints] = useState(null);
     const [appState, setAppState] = useState(0);
     const [buildingPosition, setBuildingPosition] = useState([-1, -1]);
     const [closestPoint, setClosestPoint] = useState(null);
     const [isPark, setIsPark] = useState(false);
+
+    useEffect(() => {
+        async function fetchData() {
+            const res = await getParkData();
+            setPoints(JSON.parse(res));
+        }
+        
+        fetchData();
+    }, []);
 
     useEffect(() => {
         const res = points && findClosestSpot(buildingPosition, points);
@@ -79,6 +89,9 @@ export default function ParkingLot() {
     }
 
     const handleButton = () => {
+        if (appState === 1) { // Accept park design
+            setParkData(points);
+        }
         if (appState === 2 && buildingPosition[0] === -1 && buildingPosition[1] === -1) { // if you don't choose a building, you can't go to the next step
             alert('You should choose a building.');
             return;
@@ -99,6 +112,7 @@ export default function ParkingLot() {
         setClosestPoint(null);
         setIsPark(null);
         setPoints(td_array);
+        setParkData(td_array);
     }
 
     const updatePoints = (r_index, c_index) => {
