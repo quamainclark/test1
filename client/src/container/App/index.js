@@ -1,5 +1,5 @@
 import React from 'react';
-// import ParkingLot from '../parkingLot';
+import ParkingLot from '../parkingLot';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -30,7 +30,7 @@ export default function App() {
                 <div className={classes.title}>
                     <span>Parking Lot</span>
                 </div>
-                {/* <ParkingLot /> */}
+                <ParkingLot />
             </div>
         </div>
     );
