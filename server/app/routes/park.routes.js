@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const controller = require('../controllers/park.controller');
+const controller = require("../controllers/park.controller");
 
-router.put('/setParkData', controller.set);
-router.get('/getParkData', controller.get);
+router.put("/parkData", controller.set);
+router.get("/parkData", controller.get);
 
 module.exports = router;
